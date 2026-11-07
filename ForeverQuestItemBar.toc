@@ -6,6 +6,7 @@
 ## Category-enUS: Action Bars
 ## IconTexture: Interface\AddOns\ForeverQuestItemBar\media\textures\logo_64
 ## SavedVariables: ForeverQuestItemBarDB
+## X-Curse-Project-ID: 1788578
 
 Core.lua
 Bar.lua
