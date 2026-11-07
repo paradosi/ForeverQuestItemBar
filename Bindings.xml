@@ -1,0 +1,14 @@
+<Bindings>
+  <Binding name="CLICK ForeverQuestItemBarButton1:LeftButton" header="FOREVERQUESTITEMBAR" category="ADDONS"/>
+  <Binding name="CLICK ForeverQuestItemBarButton2:LeftButton" category="ADDONS"/>
+  <Binding name="CLICK ForeverQuestItemBarButton3:LeftButton" category="ADDONS"/>
+  <Binding name="CLICK ForeverQuestItemBarButton4:LeftButton" category="ADDONS"/>
+  <Binding name="CLICK ForeverQuestItemBarButton5:LeftButton" category="ADDONS"/>
+  <Binding name="CLICK ForeverQuestItemBarButton6:LeftButton" category="ADDONS"/>
+  <Binding name="CLICK ForeverQuestItemBarButton7:LeftButton" category="ADDONS"/>
+  <Binding name="CLICK ForeverQuestItemBarButton8:LeftButton" category="ADDONS"/>
+  <Binding name="CLICK ForeverQuestItemBarButton9:LeftButton" category="ADDONS"/>
+  <Binding name="CLICK ForeverQuestItemBarButton10:LeftButton" category="ADDONS"/>
+  <Binding name="CLICK ForeverQuestItemBarButton11:LeftButton" category="ADDONS"/>
+  <Binding name="CLICK ForeverQuestItemBarButton12:LeftButton" category="ADDONS"/>
+</Bindings>

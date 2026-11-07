@@ -1,0 +1,14 @@
+package-as: ForeverQuestItemBar
+
+manual-changelog:
+  filename: CHANGELOG.md
+  markup-type: markdown
+
+ignore:
+  - README.md
+  - CHANGELOG.md
+  - LICENSE
+  - .github
+  - .gitignore
+  - media/art
+  - media/screenshots

@@ -1,0 +1,12 @@
+## Interface: 16001
+## Title: |cffffd100Forever Quest Item Bar|r
+## Notes: |cffffd100An action bar of the usable quest items in your bags. /fqib for settings.|r
+## Author: paradosi-Dreamscythe
+## Version: 1.0.0
+## Category-enUS: Action Bars
+## IconTexture: Interface\Icons\INV_Misc_Note_01
+## SavedVariables: ForeverQuestItemBarDB
+
+Core.lua
+Bar.lua
+Options.lua
