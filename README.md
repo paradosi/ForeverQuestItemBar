@@ -12,7 +12,8 @@ No more digging through bags mid-fight for the thing the quest wants you to clic
 <img src="https://raw.githubusercontent.com/paradosi/ForeverQuestItemBar/main/media/screenshots/bar.jpg" width="380" alt="The bar with two quest items, showing stack counts"> <img src="https://raw.githubusercontent.com/paradosi/ForeverQuestItemBar/main/media/screenshots/bar-tooltip.jpg" width="350" alt="Hovering a button shows the item tooltip with its quest progress">
 
 *Two collect-only quest items in Red Cloud Mesa, shown here with* Only usable items *turned
-off. The tooltip is the game's own, with the quest's progress.*
+off. Hovering a button shows the item's normal tooltip, plus whatever your other addons add
+to it (the quest progress here is Questie's).*
 
 > [!NOTE]
 > This addon targets **WoW Forever only** (interface 16001). It is not built for Retail,
