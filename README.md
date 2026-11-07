@@ -107,6 +107,8 @@ loot a *Smoldering Torch* the quest tells you to use on a pile of corpses.
 *Esc → Options → AddOns → Forever Quest Item Bar*, or `/fqib`. Settings are saved per
 account in `ForeverQuestItemBarDB`.
 
+<img src="https://raw.githubusercontent.com/paradosi/ForeverQuestItemBar/main/media/screenshots/settings.jpg" width="520" alt="The Forever Quest Item Bar settings panel">
+
 | Setting | Default | What it does |
 |---|---|---|
 | Lock bar | Off (on a new install) | Unlocked shows the drag handle and blocks clicks; locked hides it |
