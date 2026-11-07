@@ -7,6 +7,7 @@
 ## IconTexture: Interface\AddOns\ForeverQuestItemBar\media\textures\logo_64
 ## SavedVariables: ForeverQuestItemBarDB
 ## X-Curse-Project-ID: 1788578
+## X-Wago-ID: rNkgmwNa
 
 Core.lua
 Bar.lua

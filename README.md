@@ -40,7 +40,8 @@ No more digging through bags mid-fight for the thing the quest wants you to clic
 ## Installation
 
 **From a release:** install it from
-[CurseForge](https://www.curseforge.com/projects/1788578) with the CurseForge app, or
+[CurseForge](https://www.curseforge.com/projects/1788578) or
+[Wago](https://addons.wago.io/addons/rNkgmwNa) with their apps, or
 download the zip from
 [GitHub Releases](https://github.com/paradosi/ForeverQuestItemBar/releases) and extract it
 so the folder lands at:
@@ -147,9 +148,9 @@ git commit -am "v1.0.1" && git tag v1.0.1 && git push && git push --tags
 ```
 
 > [!NOTE]
-> Releases upload to CurseForge (project `1788578`, from `## X-Curse-Project-ID:` in the
-> TOC) when the repo has a `CF_API_KEY` secret. There is no Wago project yet. Wago uploads
-> start when the TOC gains `## X-Wago-ID:` and the repo a `WAGO_API_TOKEN` secret.
+> Releases upload to CurseForge (project `1788578`) and Wago (`rNkgmwNa`), using the
+> `## X-Curse-Project-ID:` and `## X-Wago-ID:` lines in the TOC and the repo's `CF_API_KEY`
+> and `WAGO_API_TOKEN` secrets. A store whose secret is missing is skipped.
 
 ## Project structure
 
