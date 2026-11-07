@@ -5,6 +5,12 @@ on:
     tags:
       - '**'
 
+# Creating the GitHub release needs a write token. Repos made after GitHub's
+# 2023 change default GITHUB_TOKEN to read-only, so ask for it explicitly
+# (v1.0.0's release step failed with 403 without this).
+permissions:
+  contents: write
+
 jobs:
   release:
     runs-on: ubuntu-latest
