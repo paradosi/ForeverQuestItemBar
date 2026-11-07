@@ -1,5 +1,7 @@
 # Forever Quest Item Bar
 
+<img src="https://raw.githubusercontent.com/paradosi/ForeverQuestItemBar/main/media/art/logo_400.png" width="200" alt="Forever Quest Item Bar">
+
 An action bar for your quest items, made for **WoW Forever**. Whenever you are carrying
 a quest item you can use (the bomb you plant, the totem you place, the letter that
 starts a quest), a button for it appears on a bar that looks and clicks like one of
@@ -155,6 +157,8 @@ ForeverQuestItemBar/
 ├── Bar.lua                   The bar frame, secure buttons, layout, visuals, drag handle
 ├── Options.lua               Settings panel
 ├── Bindings.xml              12 CLICK keybindings (loaded by the client; not listed in the TOC)
+├── media/art/                Logo source (logo.svg) and PNG renders, README only (stripped from the zip)
+├── media/textures/           logo_64.tga, the AddOns-list icon (shipped)
 ├── .pkgmeta                  Packager config: package name, changelog, files to strip
 ├── .github/workflows/        Release on tag push
 ├── CHANGELOG.md

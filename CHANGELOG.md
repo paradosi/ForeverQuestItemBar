@@ -8,3 +8,4 @@
 - Shift-click a button to link the item in chat; Alt-right-click to hide that item from the bar
 - Settings under Options > AddOns: lock, usable items only, keybinds, tooltips, buttons per row, scale and spacing
 - `/fqib` opens the settings; `/fqib lock`, `unlock`, `reset` and `unhide` do the rest
+- Its own icon in the AddOns list

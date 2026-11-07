@@ -4,7 +4,7 @@
 ## Author: paradosi-Dreamscythe
 ## Version: 1.0.0
 ## Category-enUS: Action Bars
-## IconTexture: Interface\Icons\INV_Misc_Note_01
+## IconTexture: Interface\AddOns\ForeverQuestItemBar\media\textures\logo_64
 ## SavedVariables: ForeverQuestItemBarDB
 
 Core.lua
