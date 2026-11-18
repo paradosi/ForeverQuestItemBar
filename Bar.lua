@@ -41,6 +41,19 @@ local function ApplyPosition()
     end
 end
 
+-- Ends a drag: on mouse release, or from PLAYER_REGEN_DISABLED when combat
+-- starts mid-drag. The bar holds secure buttons, so it is protected, and
+-- StopMovingOrSizing on it is blocked once lockdown begins (1.0.0 raised
+-- ADDON_ACTION_BLOCKED there). REGEN_DISABLED handlers still run before the
+-- lockdown, so the drag is finished there and the later mouse-up does nothing.
+function ns:StopDrag()
+    if not bar.dragging or InCombatLockdown() then return end
+    bar.dragging = false
+    bar:StopMovingOrSizing()
+    SavePosition()
+    ApplyPosition() -- re-anchor to TOPLEFT; StartMoving leaves its own anchor
+end
+
 ---- Button scripts ------------------------------------------------------------
 
 local function Button_OnEnter(self)
@@ -243,19 +256,10 @@ function ns:CreateBar()
     mover:RegisterForDrag("LeftButton")
     mover:SetScript("OnDragStart", function()
         if InCombatLockdown() then return end
+        bar.dragging = true
         bar:StartMoving()
     end)
-    mover:SetScript("OnDragStop", function()
-        bar:StopMovingOrSizing()
-        SavePosition()
-        -- Re-anchor to TOPLEFT (StartMoving leaves its own anchor), unless
-        -- combat began mid-drag: then Refresh re-anchors when it ends.
-        if InCombatLockdown() then
-            ns.pendingRefresh = true
-        else
-            ApplyPosition()
-        end
-    end)
+    mover:SetScript("OnDragStop", function() ns:StopDrag() end)
     mover:SetScript("OnMouseUp", function(_, mouseButton)
         if mouseButton == "RightButton" then ns:OpenOptions() end
     end)

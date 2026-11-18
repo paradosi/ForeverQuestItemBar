@@ -1,5 +1,8 @@
 # Changelog
 
+## Unreleased
+- Fixed an "action blocked" error when combat started while you were dragging the bar: the drag now ends where the bar is as combat begins
+
 ## v1.0.0
 - First release, for WoW Forever
 - A bar of buttons for the usable quest items in your bags, styled like a standard action bar: cooldown swipe, item count, keybind and range indicator

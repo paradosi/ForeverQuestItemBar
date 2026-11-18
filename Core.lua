@@ -204,7 +204,7 @@ function ns:ADDON_LOADED(name)
     -- What's in the bags changed, or what counts as a quest item did.
     for _, event in ipairs({
         "PLAYER_ENTERING_WORLD", "BAG_UPDATE_DELAYED", "QUEST_LOG_UPDATE",
-        "GET_ITEM_INFO_RECEIVED", "PLAYER_REGEN_ENABLED",
+        "GET_ITEM_INFO_RECEIVED", "PLAYER_REGEN_ENABLED", "PLAYER_REGEN_DISABLED",
         -- Only the look of existing buttons changed.
         "BAG_UPDATE_COOLDOWN", "SPELL_UPDATE_USABLE", "PLAYER_TARGET_CHANGED",
         "UPDATE_BINDINGS",
@@ -221,6 +221,9 @@ function ns:GET_ITEM_INFO_RECEIVED() self:RequestRefresh() end
 function ns:PLAYER_REGEN_ENABLED()
     if self.pendingRefresh then self:Refresh() end
 end
+
+-- Last moment before lockdown: finish a drag still in progress (Bar.lua).
+function ns:PLAYER_REGEN_DISABLED() self:StopDrag() end
 
 function ns:BAG_UPDATE_COOLDOWN() self:UpdateButtons() end
 function ns:SPELL_UPDATE_USABLE() self:UpdateButtons() end
