@@ -20,21 +20,32 @@ local buttons = {}
 
 ---- Position ------------------------------------------------------------------
 --
--- Saved as the bar's TOPLEFT in UIParent units, so it is independent of the
--- bar's own scale, and the bar grows right and down from a fixed corner as
--- items come and go instead of re-centring.
+-- Saved as the bar's top, left and right edges in UIParent units, so it is
+-- independent of the bar's own scale. The bar grows down and away from a fixed
+-- corner as items come and go instead of re-centring: TOPLEFT when it grows
+-- right, TOPRIGHT when it grows left. Both edges are kept so that switching
+-- the direction leaves the bar where it is.
 
 local function SavePosition()
-    local left, top = bar:GetLeft(), bar:GetTop()
-    if not left or not top then return end
+    local left, right, top = bar:GetLeft(), bar:GetRight(), bar:GetTop()
+    if not left or not right or not top then return end
     local scale = bar:GetScale()
-    ns.db.position = { x = left * scale, y = top * scale }
+    ns.db.position = { x = left * scale, right = right * scale, y = top * scale }
+end
+
+-- Called by the Options setter just before Grow left changes, so the bar
+-- keeps its current edges. Reading and saving is allowed in combat; the
+-- re-anchor itself waits for ns:Refresh().
+function ns:SavePosition()
+    if bar and type(ns.db.position) == "table" then SavePosition() end
 end
 
 local function ApplyPosition()
     local pos, scale = ns.db.position, bar:GetScale()
     bar:ClearAllPoints()
-    if type(pos) == "table" and pos.x and pos.y then
+    if type(pos) == "table" and pos.right and pos.y and ns.db.growLeft then
+        bar:SetPoint("TOPRIGHT", UIParent, "BOTTOMLEFT", pos.right / scale, pos.y / scale)
+    elseif type(pos) == "table" and pos.x and pos.y then
         bar:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", pos.x / scale, pos.y / scale)
     else
         bar:SetPoint("CENTER", UIParent, "CENTER", 0, -160 / scale)
@@ -51,7 +62,7 @@ function ns:StopDrag()
     bar.dragging = false
     bar:StopMovingOrSizing()
     SavePosition()
-    ApplyPosition() -- re-anchor to TOPLEFT; StartMoving leaves its own anchor
+    ApplyPosition() -- re-anchor to our corner; StartMoving leaves its own anchor
 end
 
 ---- Button scripts ------------------------------------------------------------
@@ -181,9 +192,12 @@ local function Layout(count)
     local db = ns.db
     local perRow = math.max(1, math.min(db.buttonsPerRow, ns.MAX_BUTTONS))
     local step = BUTTON_SIZE + db.spacing
+    -- Growing left, button 1 sits at the top right and the rest run leftward.
+    local corner, dir = "TOPLEFT", 1
+    if db.growLeft then corner, dir = "TOPRIGHT", -1 end
     for i, b in ipairs(buttons) do
         b:ClearAllPoints()
-        b:SetPoint("TOPLEFT", bar, "TOPLEFT", ((i - 1) % perRow) * step, -math.floor((i - 1) / perRow) * step)
+        b:SetPoint(corner, bar, corner, dir * ((i - 1) % perRow) * step, -math.floor((i - 1) / perRow) * step)
     end
     -- An empty, unlocked bar keeps one slot's worth of size so the drag
     -- handle has something to hold.

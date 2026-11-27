@@ -24,6 +24,9 @@ function ns:CreateOptions()
         return Settings.RegisterProxySetting(category, "FQIB_" .. key, varType, name, ns.defaults[key],
             function() return ns.db[key] end,
             function(value)
+                -- Pin the current edges first, so the bar keeps its place
+                -- when the corner it grows from switches.
+                if key == "growLeft" then ns:SavePosition() end
                 ns.db[key] = value
                 ns:RequestRefresh()
             end)
@@ -47,6 +50,9 @@ function ns:CreateOptions()
     Checkbox("showHotkeys", "Show keybinds",
         "Show each button's key binding. Bind them under Key Bindings > AddOns > Forever Quest Item Bar.")
     Checkbox("showTooltips", "Show tooltips", "Show the item tooltip when you mouse over a button.")
+
+    Checkbox("growLeft", "Grow to the left",
+        "Keep the bar's right edge in place and add buttons to the left, for a bar placed on the right side of the screen.")
 
     Slider("buttonsPerRow", "Buttons per row", "Wrap onto a new row after this many buttons.",
         1, ns.MAX_BUTTONS, 1, function(v) return tostring(v) end)

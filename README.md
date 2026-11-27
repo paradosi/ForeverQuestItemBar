@@ -121,6 +121,7 @@ account in `ForeverQuestItemBarDB`.
 | Only usable items | On | Show only items with a *Use:* effect or that start a quest. Off also shows collect-only quest items |
 | Show keybinds | On | Show each button's bound key. Off still shows the range dot |
 | Show tooltips | On | Item tooltip on mouseover |
+| Grow to the left | Off | Keep the bar's right edge in place and add buttons leftward, for a bar on the right of the screen |
 | Buttons per row | 12 | Wrap onto a new row after this many buttons |
 | Scale | 100% | Size of the whole bar, 50–200% |
 | Button spacing | 4 | Gap between buttons, 0–20 |

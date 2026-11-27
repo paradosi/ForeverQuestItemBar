@@ -39,11 +39,12 @@ ns.defaults = {
     locked = false,        -- false shows the drag handle; a new install starts unlocked
     usableOnly = true,     -- only items you can click: a Use: effect, or starts a quest
     buttonsPerRow = 12,
+    growLeft = false,      -- true: the bar's right edge stays put and buttons run leftward
     scale = 1.0,
     spacing = 4,
     showHotkeys = true,
     showTooltips = true,
-    position = false,      -- { x, y }: the bar's TOPLEFT in UIParent units; false = default spot
+    position = false,      -- { x, right, y }: the bar's edges in UIParent units; false = default spot
     ignored = {},          -- [itemID] = true, hidden with Alt-right-click
 }
 

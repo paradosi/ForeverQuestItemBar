@@ -1,6 +1,7 @@
 # Changelog
 
-## Unreleased
+## v1.1.0
+- New setting *Grow to the left*: the bar's right edge stays in place and new buttons are added to the left, for a bar on the right side of the screen. Turning it on or off leaves the bar where it is
 - Fixed an "action blocked" error when combat started while you were dragging the bar: the drag now ends where the bar is as combat begins
 
 ## v1.0.0

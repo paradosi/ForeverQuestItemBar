@@ -64,6 +64,7 @@ The first time you log in, the bar is **unlocked**: a blue handle labelled *Ques
 - **Only usable items** (on) - only items with a *Use:* effect or that start a quest
 - **Show keybinds** (on) - show each button's bound key
 - **Show tooltips** (on) - item tooltip on mouseover
+- **Grow to the left** (off) - keep the right edge in place and add buttons leftward
 - **Buttons per row** (12) - wrap onto a new row after this many
 - **Scale** (100%) - size of the whole bar, 50-200%
 - **Button spacing** (4) - gap between buttons
