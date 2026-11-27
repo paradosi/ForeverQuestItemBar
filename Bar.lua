@@ -230,7 +230,7 @@ function ns:SetItems(items)
     Layout(count)
     mover:SetShown(not db.locked)
     bar:SetShown(count > 0 or not db.locked)
-    mover.label:SetText(count > 0 and "Quest Item Bar" or "Quest Item Bar\n|cff888888(empty)|r")
+    mover.label:SetText(count > 0 and "QUEST ITEM BAR" or "QUEST ITEM BAR\n|cff969db3EMPTY|r")
     self:UpdateHotkeys()
     self:UpdateButtons()
 end
@@ -253,18 +253,22 @@ function ns:CreateBar()
     -- Drag handle, shown while unlocked. It sits above the buttons (whose text
     -- overlay is at frame level 500) so it takes the mouse: an unlocked bar is
     -- for moving, not clicking, as with Blizzard's Edit Mode.
-    mover = CreateFrame("Frame", nil, bar, "BackdropTemplate")
+    -- In wowdb.dev's look (Theme.lua): navy wash, hairline border, gold label,
+    -- and the gold glow running round the edge while it shows.
+    local T = ns.T
+    mover = CreateFrame("Frame", nil, bar)
     mover:SetPoint("TOPLEFT", -4, 4)
     mover:SetPoint("BOTTOMRIGHT", 4, -4)
     mover:SetFrameLevel(510)
-    mover:SetBackdrop({
-        bgFile = "Interface\\Buttons\\WHITE8X8",
-        edgeFile = "Interface\\Buttons\\WHITE8X8",
-        edgeSize = 1,
-    })
-    mover:SetBackdropColor(0.1, 0.35, 0.8, 0.35)
-    mover:SetBackdropBorderColor(0.3, 0.6, 1, 0.9)
-    mover.label = mover:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+    local wash = mover:CreateTexture(nil, "BACKGROUND")
+    wash:SetAllPoints()
+    T.Fill(wash, { T.C.bg[1], T.C.bg[2], T.C.bg[3], 0.72 })
+    T.Border(mover, T.C.border)
+    local glow = T.Glow(mover)
+    mover:HookScript("OnShow", function() glow:SetActive(true) end)
+    mover:HookScript("OnHide", function() glow:SetActive(false) end)
+    mover.label = T.Text(mover, T.display, 11, T.C.accent, "CENTER")
+    mover.label:SetWordWrap(true)
     mover.label:SetPoint("CENTER")
     mover:EnableMouse(true)
     mover:RegisterForDrag("LeftButton")

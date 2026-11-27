@@ -174,12 +174,13 @@ function ns:IgnoreItem(itemID)
     self.db.ignored[itemID] = true
     local _, link = C_Item.GetItemInfo(itemID)
     ns.Print((link or ("item " .. itemID)) .. " hidden from the bar. |cff888888/fqib unhide|r brings hidden items back.")
+    self:SyncOptions()
     self:RequestRefresh()
 end
 
 function ns:SetLocked(locked)
     self.db.locked = locked
-    if Settings and Settings.NotifyUpdate then Settings.NotifyUpdate("FQIB_locked") end
+    self:SyncOptions()
     self:RequestRefresh()
 end
 
@@ -264,6 +265,7 @@ SlashCmdList.FOREVERQUESTITEMBAR = function(msg)
         local n = 0
         for _ in pairs(ns.db.ignored) do n = n + 1 end
         wipe(ns.db.ignored)
+        ns:SyncOptions()
         ns:RequestRefresh()
         ns.Print(n == 1 and "1 hidden item restored." or (n .. " hidden items restored."))
     else

@@ -10,6 +10,8 @@
 ## X-Curse-Project-ID: 1788578
 ## X-Wago-ID: rNkgmwNa
 
+Theme.lua
+Widgets.lua
 Core.lua
 Bar.lua
 Options.lua
