@@ -10,7 +10,7 @@
 --   W.Check(host, anchor, yOff, label, width)
 --   W.Button(host, label, width)                        bordered; :SetSelected(on)
 --   W.Segment(host, anchor, yOff, choices, onSelect, width)  one-of-n buttons; :Set(value)
---   W.Note(host, anchor, yOff, text)                    a muted line of explanation
+--   W.Note(host, anchor, yOff, text, width)             muted explanation, wraps at width
 --   W.CopyDialog(title, text)                           a link shown selected for Ctrl+C
 --   W.Panel(opts)                                       a settings page: header + scrolling body
 --
@@ -251,9 +251,13 @@ function W.Segment(host, anchor, yOff, choices, onSelect, width)
     return seg
 end
 
-function W.Note(host, anchor, yOff, text)
+-- Wraps within its column (width, default COL_W) rather than running into the
+-- next one: T.Text turns wrapping off, which suits labels but not sentences.
+function W.Note(host, anchor, yOff, text, width)
     local fs = T.Text(host, T.mono, 9, C.muted)
     fs:SetPoint("TOPLEFT", anchor, "BOTTOMLEFT", 0, yOff)
+    fs:SetWidth(width or W.COL_W)
+    fs:SetWordWrap(true)
     fs:SetText(text)
     return fs
 end
