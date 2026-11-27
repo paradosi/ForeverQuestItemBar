@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## v1.2.0
 - New look for the settings panel, in the same style as the other Forever addons: navy panel, gold accents, two columns. Every setting is still there, plus buttons to bring back hidden items and to move the bar back to the middle
 - The drag handle shown while the bar is unlocked has the same look, with a gold light running round its edge
 - The GitHub link opens in a matching window, selected and ready to copy

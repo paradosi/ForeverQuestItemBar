@@ -60,8 +60,8 @@ The first time you log in, the bar is **unlocked**: a blue handle labelled *Ques
 
 ![The settings panel](https://raw.githubusercontent.com/paradosi/ForeverQuestItemBar/main/media/screenshots/settings.jpg)
 
-- **Lock bar** - hide the drag handle so the buttons can be clicked
-- **Only usable items** (on) - only items with a *Use:* effect or that start a quest
+- **Lock the bar** - hide the drag handle so the buttons can be clicked
+- **Only items you can use** (on) - only items with a *Use:* effect or that start a quest
 - **Show keybinds** (on) - show each button's bound key
 - **Show tooltips** (on) - item tooltip on mouseover
 - **Grow to the left** (off) - keep the right edge in place and add buttons leftward
@@ -69,7 +69,7 @@ The first time you log in, the bar is **unlocked**: a blue handle labelled *Ques
 - **Scale** (100%) - size of the whole bar, 50-200%
 - **Button spacing** (4) - gap between buttons
 
-The bottom of the panel shows the installed version and a button with the GitHub link for help and bug reports.
+The panel has the same look as the other Forever addons. Its header shows the installed version, **Show hidden items** and **Move it back to the middle** act on the saved state, and **Help and bug reports** at the bottom shows the GitHub link, ready to copy.
 
 ## Troubleshooting
 
