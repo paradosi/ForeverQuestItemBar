@@ -33,7 +33,7 @@ local ITEM_CLASS_QUEST = 12
 
 -- Backpack is bag 0; Forever, like Retail, has four bag slots plus a reagent
 -- bag (5). Scanning the reagent bag costs nothing and is empty on Vanilla data.
-local LAST_BAG = NUM_TOTAL_EQUIPPED_BAG_SLOTS or NUM_BAG_SLOTS or 4
+local LAST_BAG = NUM_TOTAL_EQUIPPED_BAG_SLOTS
 
 ns.defaults = {
     locked = false,        -- false shows the drag handle; a new install starts unlocked
@@ -83,7 +83,6 @@ end
 -- that appears next to a quest in the log). On Vanilla data these are rare, but
 -- when they exist they are by definition the item the quest wants used.
 local function CollectQuestLogItems(out)
-    if not (C_QuestLog and C_QuestLog.GetNumQuestLogEntries) then return end
     for index = 1, C_QuestLog.GetNumQuestLogEntries() do
         local link = GetQuestLogSpecialItemInfo(index)
         if link then
