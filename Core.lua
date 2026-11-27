@@ -267,6 +267,7 @@ SlashCmdList.FOREVERQUESTITEMBAR = function(msg)
         ns:RequestRefresh()
         ns.Print(n == 1 and "1 hidden item restored." or (n .. " hidden items restored."))
     else
+        ns.Print("Version " .. ns.VERSION .. (ns.WEBSITE and (". Help and bug reports: " .. ns.WEBSITE) or ""))
         for _, line in ipairs(HELP) do ns.Print(line) end
     end
 end

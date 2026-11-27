@@ -6,9 +6,42 @@
 -- combat otherwise. Setting variables are prefixed FQIB_ because the Settings
 -- registry is shared by every addon.
 
-local _, ns = ...
+local addonName, ns = ...
 
 local category
+
+-- Both come from the TOC, so `wowdev bump` keeps the version current here.
+ns.VERSION = C_AddOns.GetAddOnMetadata(addonName, "Version") or "?"
+ns.WEBSITE = C_AddOns.GetAddOnMetadata(addonName, "X-Website")
+
+-- Addons can't open a browser, so the support link is shown selected in an
+-- edit box for Ctrl+C. Typing in the box puts the link back.
+StaticPopupDialogs.FQIB_SUPPORT_LINK = {
+    text = "Forever Quest Item Bar on GitHub: report a problem or ask a question.\nPress Ctrl+C to copy the link.",
+    button1 = CLOSE,
+    hasEditBox = true,
+    editBoxWidth = 340,
+    OnShow = function(dialog, url)
+        local editBox = dialog:GetEditBox()
+        editBox:SetText(url)
+        editBox:HighlightText()
+        editBox:SetFocus()
+    end,
+    EditBoxOnTextChanged = function(editBox, url)
+        if editBox:GetText() ~= url then
+            editBox:SetText(url)
+            editBox:HighlightText()
+        end
+    end,
+    EditBoxOnEnterPressed = function(editBox) editBox:GetParent():Hide() end,
+    timeout = 0,
+    whileDead = true,
+    hideOnEscape = true,
+}
+
+function ns:ShowSupportLink()
+    if ns.WEBSITE then StaticPopup_Show("FQIB_SUPPORT_LINK", nil, nil, ns.WEBSITE) end
+end
 
 function ns:OpenOptions()
     if category then
@@ -18,7 +51,8 @@ end
 
 function ns:CreateOptions()
     if not (Settings and Settings.RegisterVerticalLayoutCategory) then return end
-    category = Settings.RegisterVerticalLayoutCategory("Forever Quest Item Bar")
+    local layout
+    category, layout = Settings.RegisterVerticalLayoutCategory("Forever Quest Item Bar")
 
     local function Register(key, varType, name)
         return Settings.RegisterProxySetting(category, "FQIB_" .. key, varType, name, ns.defaults[key],
@@ -60,6 +94,13 @@ function ns:CreateOptions()
         0.5, 2.0, 0.05, function(v) return string.format("%d%%", math.floor(v * 100 + 0.5)) end)
     Slider("spacing", "Button spacing", "Gap between buttons.",
         0, 20, 1, function(v) return tostring(v) end)
+
+    layout:AddInitializer(CreateSettingsListSectionHeaderInitializer("Version " .. ns.VERSION))
+    if ns.WEBSITE then
+        layout:AddInitializer(CreateSettingsButtonInitializer("Help and bug reports", "GitHub link",
+            function() ns:ShowSupportLink() end,
+            "Show the link to the addon's GitHub page, where you can report a problem or ask a question.", true))
+    end
 
     Settings.RegisterAddOnCategory(category)
 end

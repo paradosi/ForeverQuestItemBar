@@ -126,6 +126,10 @@ account in `ForeverQuestItemBarDB`.
 | Scale | 100% | Size of the whole bar, 50–200% |
 | Button spacing | 4 | Gap between buttons, 0–20 |
 
+At the bottom of the panel are the installed version and a **GitHub link** button, which
+shows this repository's address ready to copy (addons can't open a browser). `/fqib help`
+prints both in chat too.
+
 The bar's position and the list of hidden items are also saved, but have no control in
 the panel. Use `/fqib reset` and `/fqib unhide`.
 

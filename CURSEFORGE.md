@@ -69,6 +69,8 @@ The first time you log in, the bar is **unlocked**: a blue handle labelled *Ques
 - **Scale** (100%) - size of the whole bar, 50-200%
 - **Button spacing** (4) - gap between buttons
 
+The bottom of the panel shows the installed version and a button with the GitHub link for help and bug reports.
+
 ## Troubleshooting
 
 **The bar never appears.** It only shows when you carry a qualifying item, or while unlocked. Type `/fqib unlock`: if the blue handle appears, the addon is running and you have no usable quest items. Try turning off *Only usable items*.

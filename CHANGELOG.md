@@ -1,5 +1,8 @@
 # Changelog
 
+## Unreleased
+- The settings panel shows the installed version and a button with the GitHub link for help and bug reports; `/fqib help` prints both too
+
 ## v1.1.0
 - New setting *Grow to the left*: the bar's right edge stays in place and new buttons are added to the left, for a bar on the right side of the screen. Turning it on or off leaves the bar where it is
 - Fixed an "action blocked" error when combat started while you were dragging the bar: the drag now ends where the bar is as combat begins
