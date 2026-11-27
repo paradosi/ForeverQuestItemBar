@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## v1.1.1
 - The settings panel shows the installed version and a button with the GitHub link for help and bug reports; `/fqib help` prints both too
 
 ## v1.1.0
