@@ -94,6 +94,7 @@ The first time you log in, the bar is **unlocked**: a blue handle labelled
 | `/fqib unlock` | Show the drag handle so the bar can be moved |
 | `/fqib reset` | Move the bar back to its default spot |
 | `/fqib unhide` | Bring back every item hidden with Alt-right-click |
+| `/fqib minimap` | Show or hide the minimap button |
 | `/fqib help` | List these commands |
 
 ### Example: a quest with a usable item
@@ -128,6 +129,7 @@ in two columns: **Bar** on the left, **Items**, **Buttons** and **Position** on 
 | Buttons per row | 12 | Wrap onto a new row after this many buttons |
 | Scale | 100% | Size of the whole bar, 50–200% |
 | Button spacing | 4 | Gap between buttons, 0–20 |
+| Show the minimap button | On | Left-click locks or unlocks the bar, right-click opens the settings, drag moves it round the edge |
 
 Two buttons act on the saved state: **Show hidden items** brings back everything hidden
 with Alt-right-click (the same as `/fqib unhide`; greyed out when nothing is hidden), and
@@ -181,6 +183,7 @@ ForeverQuestItemBar/
 ├── ForeverQuestItemBar.toc   Interface 16001, load order, SavedVariables
 ├── Theme.lua                 wowdb.dev's colours, fonts and drawing helpers (shared with the other Forever addons)
 ├── Widgets.lua               Themed controls built on Theme.lua: section, slider, checkbox, button, copy dialog
+├── MinimapButton.lua         The minimap button; shared byte-identical with ForeverAlts (its source) and the other Forever addons
 ├── Core.lua                  Saved variables, bag scan, refresh logic, events, slash commands
 ├── Bar.lua                   The bar frame, secure buttons, layout, visuals, drag handle
 ├── Options.lua               Settings panel (a canvas in Blizzard's options window)

@@ -109,6 +109,12 @@ DEFAULT_CHAT_FRAME = { AddMessage = function(_, m) LAST_PRINT = m end }
 SOUNDKIT = { U_CHAT_SCROLL_BUTTON = 1115 }
 ATTRIBUTE_NOOP = ""
 GameTooltip = NewWidget("GameTooltip")
+Minimap = NewWidget("Frame")  -- the minimap button rides its edge
+Minimap.GetCenter = function() return 500, 400 end
+Minimap.GetWidth = function() return 140 end
+Minimap.GetHeight = function() return 140 end
+Minimap.GetEffectiveScale = function() return 1 end
+function GetCursorPosition() return 0, 0 end
 function PlaySound() end
 function CreateColor(r, g, b, a) return { r, g, b, a } end
 function wipe(t) for k in pairs(t) do t[k] = nil end return t end
@@ -290,7 +296,7 @@ check(mover and not mover.shown, "locked: the handle hides")
 SlashCmdList.FOREVERQUESTITEMBAR("")
 check(opened == 42, "/fqib opens the settings")
 SlashCmdList.FOREVERQUESTITEMBAR("help")
-check(LAST_PRINT and LAST_PRINT:find("hidden with Alt") ~= nil, "/fqib help prints the commands")
+check(LAST_PRINT and LAST_PRINT:find("minimap button") ~= nil, "/fqib help prints the commands")
 
 ---- Combat: a change waits, then applies
 
@@ -300,6 +306,24 @@ check(ns.pendingRefresh, "in combat the rebuild waits")
 state.combat = false
 ns.PLAYER_REGEN_ENABLED(ns); Refresh()
 check(not ns.pendingRefresh and ns.db.usableOnly == true and not Shown(2), "applied when combat ends")
+
+---- Minimap button (MinimapButton.lua)
+
+local mb = ForeverQuestItemBarMinimapButton
+check(mb and mb.shown, "minimap button: there and shown")
+panel:Show()
+check(CheckBox("Show the minimap button").checked == true, "minimap button: the settings tick is on")
+SlashCmdList.FOREVERQUESTITEMBAR("minimap")
+check(not mb.shown and ns.db.minimap == false, "minimap button: /fqib minimap hides it")
+panel:Show()
+check(CheckBox("Show the minimap button").checked == false, "minimap button: the tick follows /fqib minimap")
+CheckBox("Show the minimap button"):Click()
+check(mb.shown and ns.db.minimap == true, "minimap button: the tick shows it again")
+local wasLocked = ns.db.locked
+mb.scripts.OnClick(mb, "LeftButton")
+check(ns.db.locked == not wasLocked, "minimap button: left-click locks or unlocks the bar")
+mb.scripts.OnDragStart(mb); mb.scripts.OnUpdate(mb); mb.scripts.OnDragStop(mb)
+check(type(ns.db.minimapAngle) == "number" and ns.db.minimapAngle ~= 160, "minimap button: dragging saves its place")
 
 print(failures == 0 and "\nall passed" or ("\n" .. failures .. " failed"))
 os.exit(failures == 0 and 0 or 1)

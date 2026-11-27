@@ -46,6 +46,8 @@ ns.defaults = {
     showTooltips = true,
     position = false,      -- { x, right, y }: the bar's edges in UIParent units; false = default spot
     ignored = {},          -- [itemID] = true, hidden with Alt-right-click
+    minimap = true,        -- our minimap button (MinimapButton.lua) is shown
+    minimapAngle = 160,    -- degrees around the minimap's edge; dragging saves it
 }
 
 ---- Utilities -----------------------------------------------------------------
@@ -200,6 +202,22 @@ function ns:ADDON_LOADED(name)
     self.db = ForeverQuestItemBarDB
 
     self:CreateBar()
+    -- No window to open: left-click does what /fqib lock and unlock do
+    self.minimapButton = self.MinimapButton({
+        name = "ForeverQuestItemBarMinimapButton",
+        icon = "Interface\\AddOns\\ForeverQuestItemBar\\media\\textures\\logo_64",
+        title = "Forever Quest Item Bar",
+        lines = { "Left-click: lock or unlock the bar", "Right-click: settings" },
+        db = self.db,
+        onClick = function(button)
+            if button == "RightButton" then
+                ns:OpenOptions()
+            else
+                ns:SetLocked(not ns.db.locked)
+                ns.Print(ns.db.locked and "Bar locked." or "Bar unlocked. Drag the handle to move it.")
+            end
+        end,
+    })
     self:CreateOptions()
 
     -- What's in the bags changed, or what counts as a quest item did.
@@ -238,6 +256,7 @@ local HELP = {
     "|cffffd100/fqib lock|r / |cffffd100unlock|r locks or unlocks the bar for moving.",
     "|cffffd100/fqib reset|r puts the bar back in its default spot.",
     "|cffffd100/fqib unhide|r brings back items hidden with Alt-right-click.",
+    "|cffffd100/fqib minimap|r shows or hides the minimap button.",
 }
 
 SLASH_FOREVERQUESTITEMBAR1 = "/fqib"
@@ -260,6 +279,11 @@ SlashCmdList.FOREVERQUESTITEMBAR = function(msg)
         ns.db.position = false
         ns:RequestRefresh()
         ns.Print("Bar position reset.")
+    elseif cmd == "minimap" then
+        ns.db.minimap = not ns.db.minimap
+        ns.minimapButton:Update()
+        ns:SyncOptions()
+        ns.Print("Minimap button " .. (ns.db.minimap and "shown." or "hidden."))
     elseif cmd == "unhide" then
         local n = 0
         for _ in pairs(ns.db.ignored) do n = n + 1 end

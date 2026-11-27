@@ -143,11 +143,17 @@ function ns:CreateOptions()
         db.position = false
         ns:RequestRefresh()
     end)
+    local mini = W.Check(host, resetPos, -14, "Show the minimap button")
+    mini.onChange = function(v)
+        db.minimap = v
+        ns.minimapButton:Update()
+    end
+    local miniNote = W.Note(host, mini, -4, "left-click: lock or unlock the bar  ·  right-click: this  ·  drag to move it")
 
     ---- Footer: help, and the slash command
 
     local foot = T.Line(host, C.divider)
-    foot:SetPoint("TOPLEFT", resetPos, "BOTTOMLEFT", -(COL_W + 40), -20)
+    foot:SetPoint("TOPLEFT", miniNote, "BOTTOMLEFT", -(COL_W + 40), -20)
     foot:SetWidth(COL_W * 2 + 40)
 
     local help = W.Button(host, "Help and bug reports", 180)
@@ -168,6 +174,7 @@ function ns:CreateOptions()
         usable:SetChecked(db.usableOnly)
         hotkeys:SetChecked(db.showHotkeys)
         tooltips:SetChecked(db.showTooltips)
+        mini:SetChecked(db.minimap)
         local n = CountHidden()
         hidden:SetEnabled(n > 0)
         hidden:SetAlpha(n > 0 and 1 or 0.4)
