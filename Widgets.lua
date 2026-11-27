@@ -9,8 +9,10 @@
 --   W.Slider(host, anchor, yOff, label, min, max, step, wheelStep, suffix, width)
 --   W.Check(host, anchor, yOff, label, width)
 --   W.Button(host, label, width)                        bordered; :SetSelected(on)
+--   W.Segment(host, anchor, yOff, choices, onSelect, width)  one-of-n buttons; :Set(value)
 --   W.Note(host, anchor, yOff, text)                    a muted line of explanation
 --   W.CopyDialog(title, text)                           a link shown selected for Ctrl+C
+--   W.Panel(opts)                                       a settings page: header + scrolling body
 --
 -- Sliders and checks call `.onChange(value)` when the player changes them and
 -- take `:SetValue(v)` / `:SetChecked(v)` from code without calling it back.
@@ -222,6 +224,33 @@ function W.Button(host, label, width)
     return b
 end
 
+-- A row of buttons, one of them chosen: choices = { {value, label}, ... }
+function W.Segment(host, anchor, yOff, choices, onSelect, width)
+    width = width or W.COL_W
+    local seg = { buttons = {} }
+    local w = (width - 8 * (#choices - 1)) / #choices
+    for i, c in ipairs(choices) do
+        local b = W.Button(host, c[2], w)
+        if i == 1 then
+            b:SetPoint("TOPLEFT", anchor, "BOTTOMLEFT", 0, yOff)
+        else
+            b:SetPoint("LEFT", seg.buttons[i - 1], "RIGHT", 8, 0)
+        end
+        b:SetScript("OnClick", function()
+            seg:Set(c[1])
+            PlaySound(SOUNDKIT.U_CHAT_SCROLL_BUTTON)
+            onSelect(c[1])
+        end)
+        b.value = c[1]
+        seg.buttons[i] = b
+    end
+    function seg:Set(value)
+        for _, b in ipairs(self.buttons) do b:SetSelected(b.value == value) end
+    end
+    seg.first = seg.buttons[1]
+    return seg
+end
+
 function W.Note(host, anchor, yOff, text)
     local fs = T.Text(host, T.mono, 9, C.muted)
     fs:SetPoint("TOPLEFT", anchor, "BOTTOMLEFT", 0, yOff)
@@ -292,4 +321,97 @@ function W.CopyDialog(title, text)
     dialog:Show()
     dialog.box:SetFocus()
     dialog.box:HighlightText()
+end
+
+---- Settings page ---------------------------------------------------------------
+--
+-- A page for Blizzard's options window (Settings.RegisterCanvasLayoutCategory),
+-- as FarmMode Forever's: navy background, a fixed header (logo, title, version
+-- chip, a muted line, the gold line) and a body that scrolls with the mouse
+-- wheel, with a thin gold bar on the right showing where you are. The window
+-- leaves an addon about 650 x 600.
+--
+--   opts = { name = global frame name, title, sub, logo = texture path,
+--            version, bodyWidth = the content's width }
+--   returns panel, host (build the controls in host), and fit(bottomWidget),
+--   which sizes the scroll area to end at that widget; call it from OnShow,
+--   when the fonts are loaded and the widgets can be measured.
+
+function W.Panel(opts)
+    local panel = CreateFrame("Frame", opts.name, UIParent)
+    panel.name = opts.title
+    panel:Hide()
+
+    local bg = panel:CreateTexture(nil, "BACKGROUND")
+    bg:SetAllPoints()
+    T.Fill(bg, C.bg)
+
+    local logo = panel:CreateTexture(nil, "ARTWORK")
+    logo:SetSize(40, 40)
+    logo:SetPoint("TOPLEFT", 18, -16)
+    logo:SetTexture(opts.logo)
+
+    local title = T.Text(panel, T.display, 20, C.primary)
+    title:SetPoint("TOPLEFT", logo, "TOPRIGHT", 12, -1)
+    title:SetText(Upper(opts.title))
+
+    local version = T.Chip(panel)
+    version:SetPoint("TOPRIGHT", panel, "TOPRIGHT", -26, -24)
+    version:SetText("V" .. (opts.version or "?"))
+
+    local sub = T.Text(panel, T.mono, 10, C.muted)
+    sub:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -4)
+    sub:SetText(opts.sub or "")
+
+    T.GoldLine(panel, -70)
+
+    local scroll = CreateFrame("ScrollFrame", nil, panel)
+    scroll:SetPoint("TOPLEFT", 0, -72)
+    scroll:SetPoint("BOTTOMRIGHT", -12, 4)
+    local host = CreateFrame("Frame", nil, scroll)
+    local bodyWidth = opts.bodyWidth or (W.COL_W * 2 + 80)
+    host:SetSize(bodyWidth, 600)
+    scroll:SetScrollChild(host)
+
+    local barTrack = panel:CreateTexture(nil, "ARTWORK")
+    T.Fill(barTrack, C.divider)
+    barTrack:SetWidth(2)
+    barTrack:SetPoint("TOPRIGHT", panel, "TOPRIGHT", -6, -80)
+    barTrack:SetPoint("BOTTOMRIGHT", panel, "BOTTOMRIGHT", -6, 10)
+    local barThumb = panel:CreateTexture(nil, "OVERLAY")
+    T.Fill(barThumb, C.accent)
+    barThumb:SetWidth(2)
+
+    local function UpdateBar()
+        local range = scroll:GetVerticalScrollRange()
+        local shown = range > 1
+        barTrack:SetShown(shown)
+        barThumb:SetShown(shown)
+        if not shown then return end
+        local trackH = barTrack:GetHeight()
+        local view = scroll:GetHeight()
+        local thumbH = math.max(24, trackH * view / (view + range))
+        barThumb:SetHeight(thumbH)
+        local y = (trackH - thumbH) * scroll:GetVerticalScroll() / range
+        barThumb:ClearAllPoints()
+        barThumb:SetPoint("TOP", barTrack, "TOP", 0, -y)
+    end
+    scroll:EnableMouseWheel(true)
+    scroll:SetScript("OnMouseWheel", function(self, delta)
+        local range = self:GetVerticalScrollRange()
+        self:SetVerticalScroll(math.max(0, math.min(range, self:GetVerticalScroll() - delta * 40)))
+        UpdateBar()
+    end)
+    scroll:SetScript("OnScrollRangeChanged", UpdateBar)
+    scroll:SetScript("OnSizeChanged", function(_, w)
+        host:SetWidth(math.max(w, bodyWidth))
+        UpdateBar()
+    end)
+
+    local function fit(bottom)
+        local top, low = host:GetTop(), bottom and bottom:GetBottom()
+        if top and low then host:SetHeight(top - low + 20) end
+        UpdateBar()
+    end
+    return panel, host, fit
 end
