@@ -2,7 +2,7 @@
 ## Title: |cffffd100Forever Quest Item Bar|r
 ## Notes: |cffffd100An action bar of the usable quest items in your bags. /fqib for settings.|r
 ## Author: paradosi-Dreamscythe
-## Version: 1.2.1
+## Version: 1.3.0
 ## Category-enUS: Action Bars
 ## IconTexture: Interface\AddOns\ForeverQuestItemBar\media\textures\logo_64
 ## SavedVariables: ForeverQuestItemBarDB

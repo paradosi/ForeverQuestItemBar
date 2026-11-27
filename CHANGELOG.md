@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## v1.3.0
 - **Minimap button**: left-click locks or unlocks the bar, right-click opens the settings, drag it around the edge. Turn it off with *Show the minimap button* in the settings or `/fqib minimap`
 
 ## v1.2.1
