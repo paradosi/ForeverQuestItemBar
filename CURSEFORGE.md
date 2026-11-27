@@ -22,6 +22,7 @@ No more digging through bags mid-fight for the thing the quest wants you to clic
 - **Usable items only, by default.** Collect-only drops (pelts, heads, trophies) are left off unless you turn the option off.
 - **Hide what you don't want.** Alt-right-click a button to hide that item. `/fqib unhide` brings them back.
 - **Chat links.** Shift-click a button to link the item.
+- **Minimap button.** Left-click locks or unlocks the bar, right-click opens settings, drag it around the edge. It can be turned off in the settings or with `/fqib minimap`.
 - **Works in combat.** Clicking and keybinds work in combat. A quest item looted mid-fight gets its button when the fight ends.
 
 ## Getting started
