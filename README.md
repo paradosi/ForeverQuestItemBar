@@ -115,10 +115,13 @@ account in `ForeverQuestItemBarDB`.
 
 <img src="https://raw.githubusercontent.com/paradosi/ForeverQuestItemBar/main/media/screenshots/settings.jpg" width="520" alt="The Forever Quest Item Bar settings panel">
 
+The panel is in the same look as the other Forever addons (wowdb.dev's colours and fonts),
+in two columns: **Bar** on the left, **Items**, **Buttons** and **Position** on the right.
+
 | Setting | Default | What it does |
 |---|---|---|
-| Lock bar | Off (on a new install) | Unlocked shows the drag handle and blocks clicks; locked hides it |
-| Only usable items | On | Show only items with a *Use:* effect or that start a quest. Off also shows collect-only quest items |
+| Lock the bar | Off (on a new install) | Unlocked shows the drag handle and blocks clicks; locked hides it |
+| Only items you can use | On | Show only items with a *Use:* effect or that start a quest. Off also shows collect-only quest items |
 | Show keybinds | On | Show each button's bound key. Off still shows the range dot |
 | Show tooltips | On | Item tooltip on mouseover |
 | Grow to the left | Off | Keep the bar's right edge in place and add buttons leftward, for a bar on the right of the screen |
@@ -126,12 +129,13 @@ account in `ForeverQuestItemBarDB`.
 | Scale | 100% | Size of the whole bar, 50–200% |
 | Button spacing | 4 | Gap between buttons, 0–20 |
 
-At the bottom of the panel are the installed version and a **GitHub link** button, which
-shows this repository's address ready to copy (addons can't open a browser). `/fqib help`
-prints both in chat too.
+Two buttons act on the saved state: **Show hidden items** brings back everything hidden
+with Alt-right-click (the same as `/fqib unhide`; greyed out when nothing is hidden), and
+**Move it back to the middle** resets the position (`/fqib reset`).
 
-The bar's position and the list of hidden items are also saved, but have no control in
-the panel. Use `/fqib reset` and `/fqib unhide`.
+The version is in the panel's header. **Help and bug reports** at the bottom opens this
+repository's address, selected and ready to copy (addons can't open a browser). `/fqib help`
+prints both in chat too.
 
 ## Development
 
@@ -146,6 +150,11 @@ holds the shared tooling.
 | `wowdev deploy ForeverQuestItemBar --flavor forever` | Build and install on the game PC |
 | `wowdev errors ForeverQuestItemBar --flavor forever` | Lua errors BugGrabber caught on the game PC |
 | `wowdev bump ForeverQuestItemBar X.Y.Z -w` | Set the version in the TOC and add a changelog heading |
+| `lua5.1 tests/smoke.lua` (from this folder) | Headless test: loads the addon against a stubbed API and works every setting, the dialog, the slash commands and combat |
+
+> [!NOTE]
+> The packager builds from git, so a new file must be committed before `--package` or
+> `wowdev deploy` will include it.
 
 ### Releasing
 
@@ -170,12 +179,16 @@ git commit -am "v1.0.1" && git tag v1.0.1 && git push && git push --tags
 ```
 ForeverQuestItemBar/
 ├── ForeverQuestItemBar.toc   Interface 16001, load order, SavedVariables
+├── Theme.lua                 wowdb.dev's colours, fonts and drawing helpers (shared with the other Forever addons)
+├── Widgets.lua               Themed controls built on Theme.lua: section, slider, checkbox, button, copy dialog
 ├── Core.lua                  Saved variables, bag scan, refresh logic, events, slash commands
 ├── Bar.lua                   The bar frame, secure buttons, layout, visuals, drag handle
-├── Options.lua               Settings panel
+├── Options.lua               Settings panel (a canvas in Blizzard's options window)
 ├── Bindings.xml              12 CLICK keybindings (loaded by the client; not listed in the TOC)
 ├── media/art/                Logo source (logo.svg) and PNG renders, README only (stripped from the zip)
-├── media/textures/           logo_64.tga, the AddOns-list icon (shipped)
+├── media/textures/           logo_64.tga, the AddOns-list icon and panel logo (shipped)
+├── media/fonts/              Oswald and JetBrains Mono, SIL Open Font License (shipped)
+├── tests/smoke.lua           Headless test against a stubbed WoW API (stripped from the zip)
 ├── .pkgmeta                  Packager config: package name, changelog, files to strip
 ├── .github/workflows/        Release on tag push
 ├── CHANGELOG.md
@@ -276,13 +289,16 @@ for hostile targets**.
 - **Usable-only by default.** Collect-only quest items do nothing when clicked. Showing
   them makes the bar long and the useful buttons hard to find. The option exists for
   players who want the bar as a quest-loot overview.
+- **Our own settings panel, not Blizzard's list layout.** The list layout can't take the
+  wowdb.dev look that the other Forever addons share. The panel is a canvas registered with
+  `Settings.RegisterCanvasLayoutCategory`, so it still lives under *Options > AddOns*.
+  Rejected: a separate window (one more thing to find), and restyling Blizzard's controls
+  (their templates change between patches).
+- **The buttons keep Blizzard's look.** Only the panel, drag handle and dialog are themed,
+  so the bar matches your other action bars.
 - **Own drag handle rather than Edit Mode.** Edit Mode registration for addon frames is
   not public API, and a handle works the same way on every client.
-- **Forever only, for now.** It is what the addon is for. Every API it calls also exists
-  on Classic Era and TBC Anniversary (checked with `wow_compat`), except
-  `C_QuestLog.GetNumQuestLogEntries`. That one is already guarded, so on those clients
-  quest-log special items would just not be found. More TOCs could be added. The thing to
-  test there would be the Classic look of `ActionButtonTemplate`.
+- **Forever only.** All the author's addons target WoW Forever only, since 2026-11-27.
 
 ## Troubleshooting
 
@@ -316,4 +332,5 @@ Expected. See [Combat](#combat).
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE). The fonts in `media/fonts` (Oswald, JetBrains Mono) are under
+the SIL Open Font License; their licence texts are beside them.
