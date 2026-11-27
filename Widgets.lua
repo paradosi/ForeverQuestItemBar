@@ -52,7 +52,7 @@ function W.Slider(host, anchor, yOff, label, minVal, maxVal, step, wheelStep, su
     name:SetPoint("TOPLEFT", 0, 0)
     name:SetText(Upper(label))
 
-    local unit = T.Text(row, T.mono, 10, C.muted, "LEFT")
+    local unit = T.Text(row, T.mono, 11, C.muted, "LEFT")
     unit:SetPoint("TOPRIGHT", 0, -1)
     unit:SetWidth(suffix and 18 or 0.01)
     unit:SetText(suffix or "")
@@ -254,7 +254,7 @@ end
 -- Wraps within its column (width, default COL_W) rather than running into the
 -- next one: T.Text turns wrapping off, which suits labels but not sentences.
 function W.Note(host, anchor, yOff, text, width)
-    local fs = T.Text(host, T.mono, 9, C.muted)
+    local fs = T.Text(host, T.mono, 10, C.muted)
     fs:SetPoint("TOPLEFT", anchor, "BOTTOMLEFT", 0, yOff)
     fs:SetWidth(width or W.COL_W)
     fs:SetWordWrap(true)
@@ -308,7 +308,7 @@ function W.CopyDialog(title, text)
         box:SetScript("OnEscapePressed", function() dialog:Hide() end)
         dialog.box = box
 
-        local hint = T.Text(dialog, T.mono, 9, C.muted)
+        local hint = T.Text(dialog, T.mono, 10, C.muted)
         hint:SetPoint("BOTTOMLEFT", 16, 14)
         hint:SetText("Ctrl+C to copy  ·  Esc to close")
 
@@ -363,7 +363,7 @@ function W.Panel(opts)
     version:SetPoint("TOPRIGHT", panel, "TOPRIGHT", -26, -24)
     version:SetText("V" .. (opts.version or "?"))
 
-    local sub = T.Text(panel, T.mono, 10, C.muted)
+    local sub = T.Text(panel, T.mono, 11, C.muted)
     sub:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -4)
     sub:SetText(opts.sub or "")
 

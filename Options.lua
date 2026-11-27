@@ -62,7 +62,7 @@ function ns:CreateOptions()
     version:SetPoint("TOPRIGHT", panel, "TOPRIGHT", -26, -24)
     version:SetText("V" .. ns.VERSION)
 
-    local sub = T.Text(panel, T.mono, 10, C.muted)
+    local sub = T.Text(panel, T.mono, 11, C.muted)
     sub:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -4)
     sub:SetText("the usable quest items in your bags, on one bar  ·  changes apply live")
 
@@ -155,7 +155,7 @@ function ns:CreateOptions()
     help:SetScript("OnClick", function() ns:ShowSupportLink() end)
     help:SetShown(ns.WEBSITE ~= nil)
 
-    local hint = T.Text(host, T.mono, 10, C.muted)
+    local hint = T.Text(host, T.mono, 11, C.muted)
     hint:SetPoint("LEFT", help, "RIGHT", 16, 0)
     hint:SetText("/fqib opens this  ·  Alt-right-click a button to hide its item")
 
